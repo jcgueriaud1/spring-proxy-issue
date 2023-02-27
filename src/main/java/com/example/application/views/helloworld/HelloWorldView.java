@@ -2,13 +2,11 @@ package com.example.application.views.helloworld;
 
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.router.*;
+
 import javax.annotation.security.RolesAllowed;
 
 @PageTitle("Hello World")
@@ -17,21 +15,21 @@ import javax.annotation.security.RolesAllowed;
 @RolesAllowed("USER")
 public class HelloWorldView extends HorizontalLayout {
 
-    private TextField name;
-    private Button sayHello;
+    private Button navigateButton;
 
     public HelloWorldView() {
-        name = new TextField("Your name");
-        sayHello = new Button("Say hello");
-        sayHello.addClickListener(e -> {
-            Notification.show("Hello " + name.getValue());
+        navigateButton = new Button("Navigate by button");
+        navigateButton.addClickListener(e -> {
+            UI.getCurrent().navigate(HelloWorldView.class);
         });
-        sayHello.addClickShortcut(Key.ENTER);
+        navigateButton.addClickShortcut(Key.ENTER);
 
         setMargin(true);
-        setVerticalComponentAlignment(Alignment.END, name, sayHello);
 
-        add(name, sayHello);
+        add(navigateButton);
+
+        add(new RouterLink( "test", HelloWorldView.class));
+        System.out.println("HelloWorldView constructor");
     }
 
 }
