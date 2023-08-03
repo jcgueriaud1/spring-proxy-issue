@@ -11,7 +11,7 @@ import com.vaadin.flow.router.*;
 
 import jakarta.annotation.security.RolesAllowed;
 
-@PageTitle("Hello World Vaadin 23")
+@PageTitle("Hello World Vaadin 24")
 @Route(value = "hello", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @RolesAllowed("USER")
@@ -23,9 +23,14 @@ public class HelloWorldView extends HorizontalLayout {
     private MoneyField id = new MoneyField("Id");
 
     public HelloWorldView() {
+        name.setMinLength(2);
         FakeBean fakeBean = new FakeBean();
-        binder.forField(name).asRequired("name is required").bind(FakeBean::getName, FakeBean::setName);
-        binder.forField(id).asRequired("id is required").bind(FakeBean::getId, FakeBean::setId);
+        binder.forField(name).asRequired("name is required")
+                .withValidator(value -> {
+                    System.out.println("Validate " + value);
+                    return (value.length() > 2);
+                }, "Length should be > 0")
+                .bind(FakeBean::getName, FakeBean::setName);
         binder.setBean(fakeBean);
         add(id, name);
     }
