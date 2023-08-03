@@ -23,7 +23,6 @@ public class HelloWorldView extends HorizontalLayout {
     private MoneyField id = new MoneyField("Id");
 
     public HelloWorldView() {
-        name.setMinLength(2);
         FakeBean fakeBean = new FakeBean();
         binder.forField(name).asRequired("name is required")
                 .withValidator(value -> {
