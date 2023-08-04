@@ -6,7 +6,7 @@ package com.example.application.views;
 public class FakeBean {
 
     private Long id = 1L;
-    private String name = "name";
+    private String name = "na";
 
 
     public Long getId() {
