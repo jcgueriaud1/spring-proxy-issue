@@ -7,9 +7,13 @@ import com.vaadin.flow.component.shared.HasTooltip;
 import com.vaadin.flow.component.shared.Tooltip;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.textfield.TextFieldVariant;
+import com.vaadin.flow.data.binder.HasValidator;
+import com.vaadin.flow.data.binder.ValidationStatusChangeEvent;
+import com.vaadin.flow.data.binder.ValidationStatusChangeListener;
+import com.vaadin.flow.shared.Registration;
 import org.apache.commons.lang3.StringUtils;
 
-public class MoneyField extends AbstractCompositeField<TextField, MoneyField, Long>  implements HasStyle, HasValidation, HasSize, Focusable<MoneyField>, HasLabel, HasTooltip {
+public class MoneyField extends AbstractCompositeField<TextField, MoneyField, Long>  implements HasStyle, HasValidation, HasSize, Focusable<MoneyField>, HasLabel, HasTooltip, HasValidator<Long> {
 
     private final int scale;
     private final boolean negativeValueAllowed;
@@ -90,4 +94,14 @@ public class MoneyField extends AbstractCompositeField<TextField, MoneyField, Lo
         getContent().setLabel(label);
     }
 
+    public Registration addValidationStatusChangeListener(ValidationStatusChangeListener<Long> listener) {
+        return ((TextField)this.getContent()).addClientValidatedEventListener((event) -> {
+            if (event.isValid() == isInvalid()) {
+                listener.validationStatusChanged(new ValidationStatusChangeEvent(this, !this.isInvalid()));
+            } else  {
+                // validation ignored
+                System.out.println("Validation status unchanged");
+            }
+        });
+    }
 }
