@@ -8,7 +8,7 @@ public class FakeBean {
     private Long id = 1L;
     private Long id2 = 1L;
     private String name = "na";
-    private String name2 = "n2";
+    private String name2;
 
 
     public Long getId() {
