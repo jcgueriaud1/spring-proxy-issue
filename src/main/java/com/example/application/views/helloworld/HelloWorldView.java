@@ -1,35 +1,40 @@
 package com.example.application.views.helloworld;
 
-import com.example.application.views.FakeBean;
-import com.example.application.views.MainLayout;
-import com.example.application.views.MoneyField;
-import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
+
+import com.example.application.views.*;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.*;
 
-import javax.annotation.security.RolesAllowed;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
-@PageTitle("Hello World")
-@Route(value = "hello", layout = MainLayout.class)
-@RouteAlias(value = "", layout = MainLayout.class)
-@RolesAllowed("USER")
+@PageTitle("Hello World Vaadin 24")
+@Route(value = "")
+@AnonymousAllowed
 public class HelloWorldView extends HorizontalLayout {
 
     private Binder<FakeBean> binder = new Binder<>();
 
     private TextField name = new TextField("Name");
-    private MoneyField id = new MoneyField("Id");
+    private TextField name2 = new TextField("Name2");
 
     public HelloWorldView() {
         FakeBean fakeBean = new FakeBean();
-        binder.forField(name).asRequired("name is required").bind(FakeBean::getName, FakeBean::setName);
-        binder.forField(id).asRequired("id is required").bind(FakeBean::getId, FakeBean::setId);
+        binder.forField(name).asRequired("name is required")
+                .withValidator(value -> {
+                    System.out.println("Validate " + value);
+                    return (value.length() > 2);
+                }, "Length should be > 2")
+                .bind(FakeBean::getName, FakeBean::setName);
+        binder.forField(name2).asRequired("name2 is required")
+                .withValidator(value -> {
+                    System.out.println("Validate name2 " + value);
+                    return (value.length() > 2);
+                }, "Length should be > 2")
+                .bind(FakeBean::getName2, FakeBean::setName2);
         binder.setBean(fakeBean);
-        add(id, name);
+        add(name, name2);
     }
 
 }
