@@ -2,8 +2,10 @@ package com.example.application.views.helloworld;
 
 
 import com.example.application.views.*;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.*;
@@ -21,6 +23,8 @@ public class HelloWorldView extends HorizontalLayout {
 
     private TextField name = new TextField("Name");
     private TextField name2 = new TextField("Name2");
+
+    private IntegerField field = new IntegerField("test");
 
     private Span errorMessage = new Span();
 
@@ -44,7 +48,8 @@ public class HelloWorldView extends HorizontalLayout {
                 errorMessage.setVisible(false);
             }
         });
-        add(name, name2, errorMessage);
+        field.setMin(0);
+        add(name, name2, errorMessage, field, new Button("Clear", e-> field.clear()));
     }
 
 }

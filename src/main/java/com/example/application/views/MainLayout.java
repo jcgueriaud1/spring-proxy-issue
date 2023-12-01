@@ -1,7 +1,5 @@
 package com.example.application.views;
 
-import com.example.application.components.appnav.AppNav;
-import com.example.application.components.appnav.AppNavItem;
 import com.example.application.data.entity.User;
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.views.about.AboutView;
@@ -17,8 +15,11 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.sidenav.SideNav;
+import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
@@ -65,17 +66,17 @@ public class MainLayout extends AppLayout {
         addToDrawer(header, scroller, createFooter());
     }
 
-    private AppNav createNavigation() {
+    private SideNav createNavigation() {
         // AppNav is not yet an official component.
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
-        AppNav nav = new AppNav();
+        SideNav nav = new SideNav();
 
         if (accessChecker.hasAccess(HelloWorldView.class)) {
-            nav.addItem(new AppNavItem("Hello World", HelloWorldView.class, "la la-globe"));
+            nav.addItem(new SideNavItem("Hello World", HelloWorldView.class, VaadinIcon.HOME.create()));
 
         }
         if (accessChecker.hasAccess(AboutView.class)) {
-            nav.addItem(new AppNavItem("About", AboutView.class, "la la-file"));
+            nav.addItem(new SideNavItem("About", AboutView.class, VaadinIcon.ABSOLUTE_POSITION.create()));
 
         }
 
