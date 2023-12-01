@@ -144,6 +144,12 @@
             <version>5.1.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.vaadin.addons.tatu</groupId>
+            <artifactId>tabsheet</artifactId>
+            <version>1.8.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>

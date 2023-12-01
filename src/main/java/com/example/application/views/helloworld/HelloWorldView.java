@@ -36,6 +36,7 @@ public class HelloWorldView extends HorizontalLayout {
                 .bind(FakeBean::getName2, FakeBean::setName2);
         binder.setBean(fakeBean);
         add(name, name2);
+
     }
 
 }
