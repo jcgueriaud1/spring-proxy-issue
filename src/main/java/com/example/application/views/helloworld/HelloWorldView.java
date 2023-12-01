@@ -2,17 +2,13 @@ package com.example.application.views.helloworld;
 
 
 import com.example.application.views.*;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.*;
 
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-
-import java.util.Objects;
+import jakarta.annotation.security.RolesAllowed;
 
 @PageTitle("Hello World Vaadin 24")
 @Route(value = "")
@@ -24,32 +20,22 @@ public class HelloWorldView extends HorizontalLayout {
     private TextField name = new TextField("Name");
     private TextField name2 = new TextField("Name2");
 
-    private IntegerField field = new IntegerField("test");
-
-    private Span errorMessage = new Span();
-
     public HelloWorldView() {
         FakeBean fakeBean = new FakeBean();
         binder.forField(name).asRequired("name is required")
+                .withValidator(value -> {
+                    System.out.println("Validate " + value);
+                    return (value.length() > 2);
+                }, "Length should be > 2")
                 .bind(FakeBean::getName, FakeBean::setName);
         binder.forField(name2).asRequired("name2 is required")
+                .withValidator(value -> {
+                    System.out.println("Validate name2 " + value);
+                    return (value.length() > 2);
+                }, "Length should be > 2")
                 .bind(FakeBean::getName2, FakeBean::setName2);
         binder.setBean(fakeBean);
-        binder.withValidator(bean ->
-                        Objects.equals(bean.getName(), "test") || Objects.equals(bean.getName2(), "test"),
-                "At least one field should be test"
-        );
-        binder.setValidationStatusHandler(status -> {
-            System.out.println("Errors " + status.getValidationErrors().size());
-            if (!status.getBeanValidationErrors().isEmpty()) {
-                errorMessage.setText(status.getBeanValidationErrors().get(0).getErrorMessage());
-                errorMessage.setVisible(true);
-            } else {
-                errorMessage.setVisible(false);
-            }
-        });
-        field.setMin(0);
-        add(name, name2, errorMessage, field, new Button("Clear", e-> field.clear()));
+        add(name, name2);
     }
 
 }
