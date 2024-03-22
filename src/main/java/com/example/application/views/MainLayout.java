@@ -1,11 +1,11 @@
 package com.example.application.views;
 
-import com.example.application.components.appnav.AppNav;
-import com.example.application.components.appnav.AppNavItem;
+import java.io.ByteArrayInputStream;
+import java.util.Optional;
+
 import com.example.application.data.entity.User;
 import com.example.application.security.AuthenticatedUser;
-import com.example.application.views.about.AboutView;
-import com.example.application.views.helloworld.HelloWorldView;
+
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
@@ -23,8 +23,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import java.io.ByteArrayInputStream;
-import java.util.Optional;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -60,26 +58,9 @@ public class MainLayout extends AppLayout {
         appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
         Header header = new Header(appName);
 
-        Scroller scroller = new Scroller(createNavigation());
+        Scroller scroller = new Scroller();
 
         addToDrawer(header, scroller, createFooter());
-    }
-
-    private AppNav createNavigation() {
-        // AppNav is not yet an official component.
-        // For documentation, visit https://github.com/vaadin/vcf-nav#readme
-        AppNav nav = new AppNav();
-
-        if (accessChecker.hasAccess(HelloWorldView.class)) {
-            nav.addItem(new AppNavItem("Hello World", HelloWorldView.class, "la la-globe"));
-
-        }
-        if (accessChecker.hasAccess(AboutView.class)) {
-            nav.addItem(new AppNavItem("About", AboutView.class, "la la-file"));
-
-        }
-
-        return nav;
     }
 
     private Footer createFooter() {
