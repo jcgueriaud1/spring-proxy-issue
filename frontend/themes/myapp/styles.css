@@ -1,7 +1,5 @@
 @import url('./luciole.css');
 @import url('./main-layout.css');
-@import url('line-awesome/dist/line-awesome/css/line-awesome.min.css');
-
 html {
     /* Font family */
     --lumo-font-family: 'Luciole', sans-serif;
